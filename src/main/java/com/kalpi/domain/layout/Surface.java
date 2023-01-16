@@ -1,11 +1,11 @@
-package com.kalpi.domain.valueObject;
+package com.kalpi.domain.layout;
 
 import java.awt.Point;
 import java.util.HashMap;
 
 public class Surface {
 
-    private HashMap<Integer, Point> coordinates;
+    private final HashMap<Integer, Point> coordinates;
 
     public Surface() {
         this.coordinates = new HashMap<>();
@@ -24,7 +24,7 @@ public class Surface {
         }
     }
 
-    private void addCoordinate(int x, int y) {
+    public void addCoordinate(int x, int y) {
         this.coordinates.put(this.coordinates.size(), new Point(x,y));
     }
 
