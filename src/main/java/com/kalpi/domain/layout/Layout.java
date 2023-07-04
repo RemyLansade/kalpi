@@ -6,7 +6,7 @@ import java.util.*;
 public class Layout {
 
     private final Surface surface;
-    private int peripheralGapSize = 0;
+    // private int peripheralGapSize = 0;
 
     public Layout(Surface surface) {
         this.surface = surface;

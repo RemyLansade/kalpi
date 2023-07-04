@@ -3,7 +3,6 @@ package com.kalpi.domain.layout;
 import java.awt.Point;
 import java.util.HashMap;
 
-import com.kalpi.domain.layout.Surface;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
