@@ -31,4 +31,8 @@ public class Surface {
     public HashMap<Integer, Point> getCoordinates() {
         return this.coordinates;
     }
+
+    public boolean isValid() {
+        return this.coordinates.size() > 2;
+    }
 }

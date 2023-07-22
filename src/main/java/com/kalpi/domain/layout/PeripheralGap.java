@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class PeripheralGap {
     public static final int DEFAULT_SIZE = 0;
-    private int size;
+    private final int size;
     private final HashMap<Integer, Point> coordinates;
 
     public PeripheralGap(Surface surface) {
