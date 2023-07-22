@@ -17,30 +17,28 @@ public class PeripheralGap {
         this.size = size;
     }
 
+    /**
+     * Get the size of the peripheral gap
+     * @return int size
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Calculate the peripheral gap coordinates
+     * @return HashMap<Integer, Point> coordinates
+     */
     public HashMap<Integer, Point> compute() {
         if(size == DEFAULT_SIZE) {
             return coordinates;
         }
         HashMap<Integer, Point> peripheralGapCoordinates = new HashMap<>();
-        for (int i = 0; i < coordinates.size(); i++) {
-            Point currentPoint = coordinates.get(i);
-            Point previousPoint = i == 0 ?
-                    coordinates.get(coordinates.size() - 1):
-                    coordinates.get(i - 1);
-            Point nextPoint = i == coordinates.size() - 1 ?
-                    coordinates.get(0):
-                    coordinates.get(i + 1);
-            Triangle triangle = new Triangle(currentPoint, nextPoint, previousPoint);
 
-            int currentX = currentPoint.x - (int) (triangle.getLengthAB() / Math.tan(triangle.getAngleA()));
-            int currentY = currentPoint.y - size;
-
-            peripheralGapCoordinates.put(i, new Point(currentX,currentY));
-        }
+        peripheralGapCoordinates.put(0, new Point(coordinates.get(0).x + size, coordinates.get(0).y - size));
+        peripheralGapCoordinates.put(1, new Point(coordinates.get(1).x - size, coordinates.get(1).y - size));
+        peripheralGapCoordinates.put(2, new Point(coordinates.get(2).x - size, coordinates.get(2).y + size));
+        peripheralGapCoordinates.put(3, new Point(coordinates.get(3).x + size, coordinates.get(3).y + size));
 
         return peripheralGapCoordinates;
     }
