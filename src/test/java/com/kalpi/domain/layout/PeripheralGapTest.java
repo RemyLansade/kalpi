@@ -1,5 +1,6 @@
 package com.kalpi.domain.layout;
 
+import com.kalpi.exception.SameDirectionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +36,7 @@ class PeripheralGapTest {
 
     @Test
     @DisplayName("Must return the surface to be laid out with an null peripheral gap for a rectangle")
-    public void MustReturnTheSurfaceToBeLaidOutWithAnNullPeripheralGapForARectangle() {
+    public void MustReturnTheSurfaceToBeLaidOutWithAnNullPeripheralGapForARectangle() throws SameDirectionException {
         Surface testSurface = new Surface.Builder()
                 .add(0,100)
                 .add(200,100)
@@ -57,7 +58,7 @@ class PeripheralGapTest {
 
     @Test
     @DisplayName("Must return the surface to be laid out with an peripheral gap of 1 for a rectangle")
-    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForARectangle() {
+    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForARectangle() throws SameDirectionException {
         Surface testSurface = new Surface.Builder()
                 .add(0,100)
                 .add(200,100)
@@ -79,7 +80,7 @@ class PeripheralGapTest {
 
     @Test
     @DisplayName("Must return the surface to be laid out with an peripheral gap of 2 for a rectangle")
-    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOfTwoForARectangle() {
+    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOfTwoForARectangle() throws SameDirectionException {
         Surface testSurface = new Surface.Builder()
                 .add(0,100)
                 .add(200,100)
@@ -94,6 +95,32 @@ class PeripheralGapTest {
                 .add(198,98)
                 .add(198,2)
                 .add(2,2)
+                .build();
+
+        assertEquals(expectedOutput.getCoordinates(), peripheralGap.compute());
+    }
+
+    @Test
+    @DisplayName("Must return the surface to be laid out with an peripheral gap of 1 for a surface with multiple points and only right angles")
+    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForASurfaceWithMultiplePointsAndOnlyRightAngles() throws SameDirectionException {
+        Surface testSurface = new Surface.Builder()
+                .add(0,100)
+                .add(200,100)
+                .add(200,0)
+                .add(100,0)
+                .add(100,50)
+                .add(0,50)
+                .build();
+
+        PeripheralGap peripheralGap = new PeripheralGap(testSurface, 1);
+
+        Surface expectedOutput = new Surface.Builder()
+                .add(1,99)
+                .add(199,99)
+                .add(199,1)
+                .add(101,1)
+                .add(101,51)
+                .add(1,51)
                 .build();
 
         assertEquals(expectedOutput.getCoordinates(), peripheralGap.compute());
