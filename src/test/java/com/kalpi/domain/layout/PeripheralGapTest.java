@@ -207,4 +207,32 @@ class PeripheralGapTest {
             }
         });
     }
+
+    @Test
+    @DisplayName("Must return the surface to be laid out with an peripheral gap of 1 for a trapezoidal surface")
+    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForATrapezoidalSurface() {
+        Surface testSurface = new Surface.Builder()
+                .add(0,50)
+                .add(200,50)
+                .add(150,0)
+                .add(50,0)
+                .build();
+
+        PeripheralGap peripheralGap = new PeripheralGap(testSurface, 1);
+
+        Surface expectedOutput = new Surface.Builder()
+                .add(2.4142, 49)
+                .add(197.5858, 49)
+                .add(149.5858, 1)
+                .add(50.4142, 1)
+                .build();
+
+        expectedOutput.getCoordinates().forEach((key, value) -> {
+            try {
+                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }

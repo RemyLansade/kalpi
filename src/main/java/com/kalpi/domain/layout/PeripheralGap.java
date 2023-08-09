@@ -45,7 +45,6 @@ public class PeripheralGap {
                     coordinates.get(0) :
                     coordinates.get(i + 1);
             double peripheralGapAngle = getPeripheralGapAngle(currentPoint, previousPoint, nextPoint);
-            System.out.println(peripheralGapAngle);
             addingPeripheralGapCoordinates(i, peripheralGapCoordinates, peripheralGapAngle);
         }
 
@@ -100,13 +99,13 @@ public class PeripheralGap {
             newX = coordinates.get(i).getX() + getOppositeSideLength(size, peripheralGapAngle);
             newY = coordinates.get(i).getY() + size;
         } else if (peripheralGapAngle <= 180) {
-            newX = coordinates.get(i).getX() - getOppositeSideLength(size, peripheralGapAngle - 90);
+            newX = coordinates.get(i).getX() - getOppositeSideLength(size, 180 - peripheralGapAngle);
             newY = coordinates.get(i).getY() + size;
         } else if (peripheralGapAngle <= 270) {
             newX = coordinates.get(i).getX() - getOppositeSideLength(size, peripheralGapAngle - 180);
             newY = coordinates.get(i).getY() - size;
         } else {
-            newX = coordinates.get(i).getX() + getOppositeSideLength(size, peripheralGapAngle - 270);
+            newX = coordinates.get(i).getX() + getOppositeSideLength(size,360 - peripheralGapAngle);
             newY = coordinates.get(i).getY() - size;
         }
         peripheralGapCoordinates.put(i, new Point(newX, newY));
