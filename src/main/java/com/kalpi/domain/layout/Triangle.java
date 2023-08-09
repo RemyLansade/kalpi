@@ -1,7 +1,5 @@
 package com.kalpi.domain.layout;
 
-import java.awt.*;
-
 public class Triangle {
 
     private final Point pointA;
@@ -52,7 +50,7 @@ public class Triangle {
      * @return double length
      */
     public double getLengthAB() {
-        return Math.sqrt(Math.pow((pointB.x - pointA.x), 2) + Math.pow((pointB.y - pointA.y), 2));
+        return Math.sqrt(Math.pow((pointB.getX() - pointA.getX()), 2) + Math.pow((pointB.getY() - pointA.getY()), 2));
     }
 
     /**
@@ -60,7 +58,7 @@ public class Triangle {
      * @return double length
      */
     public double getLengthAC() {
-        return Math.sqrt(Math.pow((pointC.x - pointA.x), 2) + Math.pow((pointC.y - pointA.y), 2));
+        return Math.sqrt(Math.pow((pointC.getX() - pointA.getX()), 2) + Math.pow((pointC.getY() - pointA.getY()), 2));
     }
 
     /**
@@ -68,6 +66,6 @@ public class Triangle {
      * @return double length
      */
     public double getLengthBC() {
-        return Math.sqrt(Math.pow((pointC.x - pointB.x), 2) + Math.pow((pointC.y - pointB.y), 2));
+        return Math.sqrt(Math.pow((pointC.getX() - pointB.getX()), 2) + Math.pow((pointC.getY() - pointB.getY()), 2));
     }
 }

@@ -1,7 +1,5 @@
 package com.kalpi.domain.layout;
 
-import java.awt.Point;
-
 enum Direction {
     LEFT, RIGHT, STRAIGHT
 }

@@ -1,6 +1,5 @@
 package com.kalpi.domain.layout;
 
-import java.awt.Point;
 import java.util.HashMap;
 
 public class Surface {
@@ -14,7 +13,7 @@ public class Surface {
     public static class Builder {
         Surface surface = new Surface();
 
-        public Builder add(int x, int y) {
+        public Builder add(double x, double y) {
             surface.addCoordinate(x,y);
             return this;
         }
@@ -24,7 +23,7 @@ public class Surface {
         }
     }
 
-    public void addCoordinate(int x, int y) {
+    public void addCoordinate(double x, double y) {
         this.coordinates.put(this.coordinates.size(), new Point(x,y));
     }
 

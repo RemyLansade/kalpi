@@ -1,6 +1,5 @@
 package com.kalpi.domain.layout;
 
-import java.awt.Point;
 import java.util.*;
 
 public class Layout {
@@ -12,7 +11,7 @@ public class Layout {
         this.surface = surface;
     }
 
-    public HashMap<Integer, Point> getSurface() {
+    public HashMap<Integer, com.kalpi.domain.layout.Point> getSurface() {
         return surface.getCoordinates();
     }
 
