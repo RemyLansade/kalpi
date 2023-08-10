@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 class PeripheralGapTest {
 
@@ -33,9 +34,9 @@ class PeripheralGapTest {
     public void CanTakeCoordinatesAndASize() throws NoSuchFieldException {
         Surface testSurface = new Surface();
         PeripheralGap peripheralGap = new PeripheralGap(testSurface);
-        String expectedSurfaceField = peripheralGap.getClass().getDeclaredField("coordinates").getName();
+        String expectedSurfaceField = peripheralGap.getClass().getDeclaredField("surface").getName();
         String expectedSizeField = peripheralGap.getClass().getDeclaredField("size").getName();
-        assertEquals("coordinates", expectedSurfaceField);
+        assertEquals("surface", expectedSurfaceField);
         assertEquals("size", expectedSizeField);
     }
 
@@ -59,7 +60,7 @@ class PeripheralGapTest {
     @DisplayName("Must calculate the opposite side of a right triangle")
     public void MustCalculateTheOppositeSideOfARightTriangle() throws Exception {
         try {
-            assertEquals(2.4142, getOppositeSideLengthMethod().invoke(peripheralGap,1, 22.5));
+            assertEquals(2.4142, Objects.requireNonNull(getOppositeSideLengthMethod()).invoke(peripheralGap,1, 22.5));
             assertEquals(1.7321, getOppositeSideLengthMethod().invoke(peripheralGap, 1, 30));
             assertEquals(1.0, getOppositeSideLengthMethod().invoke(peripheralGap, 1, 45));
             assertEquals(0.5774, getOppositeSideLengthMethod().invoke(peripheralGap, 1, 60));
@@ -72,7 +73,7 @@ class PeripheralGapTest {
     @DisplayName("Must return a algorithm exception when the opposite side is 0")
     public void MustReturnAAlgorithmExceptionWhenTheOppositeSideIsZero() {
         try {
-            getOppositeSideLengthMethod().invoke(peripheralGap, 1, 0);
+            Objects.requireNonNull(getOppositeSideLengthMethod()).invoke(peripheralGap, 1, 0);
         } catch (Exception e) {
             assertThrows(InvocationTargetException.class, () -> {
                 throw e;
@@ -84,7 +85,7 @@ class PeripheralGapTest {
     @DisplayName("Must return a algorithm exception when the opposite side is 90")
     public void MustReturnAAlgorithmExceptionWhenTheOppositeSideIsNinety() {
         try {
-            getOppositeSideLengthMethod().invoke(peripheralGap, 1, 90);
+            Objects.requireNonNull(getOppositeSideLengthMethod()).invoke(peripheralGap, 1, 90);
         } catch (Exception e) {
             assertThrows(InvocationTargetException.class, () -> {
                 throw e;
@@ -94,7 +95,7 @@ class PeripheralGapTest {
 
     @Test
     @DisplayName("Must return the surface to be laid out with an null peripheral gap for a rectangle")
-    public void MustReturnTheSurfaceToBeLaidOutWithAnNullPeripheralGapForARectangle() {
+    public void MustReturnTheSurfaceToBeLaidOutWithAnNullPeripheralGapForARectangle() throws Exception {
         Surface testSurface = new Surface.Builder()
                 .add(0,100)
                 .add(200,100)
@@ -103,6 +104,7 @@ class PeripheralGapTest {
                 .build();
 
         PeripheralGap peripheralGap = new PeripheralGap(testSurface, 0);
+        Surface peripheralGapSurface = peripheralGap.compute();
 
         Surface expectedOutput = new Surface.Builder()
                 .add(0,100)
@@ -113,7 +115,7 @@ class PeripheralGapTest {
 
         expectedOutput.getCoordinates().forEach((key, value) -> {
             try {
-                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+                assertEquals(value, peripheralGapSurface.getCoordinates().get(key));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -141,7 +143,7 @@ class PeripheralGapTest {
 
         expectedOutput.getCoordinates().forEach((key, value) -> {
             try {
-                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+                assertEquals(value, peripheralGap.compute().getCoordinates().get(key));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -169,7 +171,7 @@ class PeripheralGapTest {
 
         expectedOutput.getCoordinates().forEach((key, value) -> {
             try {
-                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+                assertEquals(value, peripheralGap.compute().getCoordinates().get(key));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -201,7 +203,7 @@ class PeripheralGapTest {
 
         expectedOutput.getCoordinates().forEach((key, value) -> {
             try {
-                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+                assertEquals(value, peripheralGap.compute().getCoordinates().get(key));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -210,7 +212,7 @@ class PeripheralGapTest {
 
     @Test
     @DisplayName("Must return the surface to be laid out with an peripheral gap of 1 for a trapezoidal surface")
-    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForATrapezoidalSurface() {
+    public void MustReturnTheSurfaceToBeLaidOutWithAnExpansionGapOf1ForATrapezoidalSurface() throws Exception {
         Surface testSurface = new Surface.Builder()
                 .add(0,50)
                 .add(200,50)
@@ -219,6 +221,7 @@ class PeripheralGapTest {
                 .build();
 
         PeripheralGap peripheralGap = new PeripheralGap(testSurface, 1);
+        Surface periferalGapSurface = peripheralGap.compute();
 
         Surface expectedOutput = new Surface.Builder()
                 .add(2.4142, 49)
@@ -229,7 +232,7 @@ class PeripheralGapTest {
 
         expectedOutput.getCoordinates().forEach((key, value) -> {
             try {
-                assertEquals(value.toString(), peripheralGap.compute().get(key).toString());
+                assertEquals(value, periferalGapSurface.getCoordinates().get(key));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

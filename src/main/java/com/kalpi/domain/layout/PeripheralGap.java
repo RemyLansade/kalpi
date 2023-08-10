@@ -5,15 +5,18 @@ import java.util.HashMap;
 
 public class PeripheralGap {
     public static final int DEFAULT_SIZE = 0;
+    private final Surface surface;
+    private final Surface.Builder peripheralGapSurface;
     private final int size;
-    private final HashMap<Integer, Point> coordinates;
+
 
     public PeripheralGap(Surface surface) {
         this(surface, DEFAULT_SIZE);
     }
 
     public PeripheralGap(Surface surface, int size) {
-        this.coordinates = surface.getCoordinates();
+        this.surface = surface;
+        this.peripheralGapSurface = new Surface.Builder();
         this.size = size;
     }
 
@@ -29,12 +32,12 @@ public class PeripheralGap {
      * Calculate the peripheral gap coordinates
      * @return HashMap<Integer, Point> coordinates
      */
-    public HashMap<Integer, Point> compute() throws Exception {
+    public Surface compute() throws Exception {
         if(size == DEFAULT_SIZE) {
-            return coordinates;
+            return surface;
         }
 
-        HashMap<Integer, Point> peripheralGapCoordinates = new HashMap<>();
+        HashMap<Integer, Point> coordinates = surface.getCoordinates();
 
         for (int i = 0; i < coordinates.size(); i++) {
             Point currentPoint = coordinates.get(i);
@@ -44,19 +47,17 @@ public class PeripheralGap {
             Point nextPoint = i == coordinates.size() - 1 ?
                     coordinates.get(0) :
                     coordinates.get(i + 1);
+
             double peripheralGapAngle = getPeripheralGapAngle(currentPoint, previousPoint, nextPoint);
-            addingPeripheralGapCoordinates(i, peripheralGapCoordinates, peripheralGapAngle);
+
+            addingPeripheralGapCoordinates(i, peripheralGapAngle);
         }
 
-        return peripheralGapCoordinates;
+        return peripheralGapSurface.build();
     }
 
     /**
      * Calculate the peripheral gap angle given the current point, the previous point and the next point
-     * @param currentPoint
-     * @param previousPoint
-     * @param nextPoint
-     * @throws InvalidAlgorithmParameterException
      * @return double peripheralGapAngle
      */
     private double getPeripheralGapAngle(Point currentPoint, Point previousPoint, Point nextPoint) throws InvalidAlgorithmParameterException {
@@ -84,17 +85,16 @@ public class PeripheralGap {
 
     /**
      * Add the peripheral gap coordinates to the HashMap
-     * @param peripheralGapAngle
-     * @param peripheralGapCoordinates
-     * @param i
-     * @throws InvalidAlgorithmParameterException
      */
-    private void addingPeripheralGapCoordinates(int i, HashMap<Integer, Point> peripheralGapCoordinates, double peripheralGapAngle) throws InvalidAlgorithmParameterException {
+    private void addingPeripheralGapCoordinates(int i, double peripheralGapAngle) throws InvalidAlgorithmParameterException {
         if(peripheralGapAngle > 360 || peripheralGapAngle < 0) {
             throw new InvalidAlgorithmParameterException("Invalid angle");
         }
+
         double newX;
         double newY;
+        HashMap<Integer, Point> coordinates = surface.getCoordinates();
+
         if (peripheralGapAngle <= 90) {
             newX = coordinates.get(i).getX() + getOppositeSideLength(size, peripheralGapAngle);
             newY = coordinates.get(i).getY() + size;
@@ -108,13 +108,11 @@ public class PeripheralGap {
             newX = coordinates.get(i).getX() + getOppositeSideLength(size,360 - peripheralGapAngle);
             newY = coordinates.get(i).getY() - size;
         }
-        peripheralGapCoordinates.put(i, new Point(newX, newY));
+        peripheralGapSurface.add(newX, newY);
     }
 
     /**
      * Can calculate the rectangular triangle opposite side length given the adjacent side length and the angle
-     * @param adjacentSideLength
-     * @param angleInDegrees
      * @return double oppositeSideLength
      */
     private double getOppositeSideLength(int adjacentSideLength, double angleInDegrees) throws InvalidAlgorithmParameterException {

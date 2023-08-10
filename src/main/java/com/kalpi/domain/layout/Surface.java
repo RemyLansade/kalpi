@@ -34,4 +34,11 @@ public class Surface {
     public boolean isValid() {
         return this.coordinates.size() > 2;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Surface surface)) return false;
+        return this.coordinates.equals(surface.coordinates);
+    }
 }

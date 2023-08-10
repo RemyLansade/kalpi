@@ -1,21 +1,24 @@
 package com.kalpi.domain.layout;
 
-import java.util.*;
-
 public class Layout {
 
     private final Surface surface;
-    // private int peripheralGapSize = 0;
+    private Surface surfaceWithPeripheralGap;
 
     public Layout(Surface surface) {
         this.surface = surface;
+        this.surfaceWithPeripheralGap = surface;
     }
 
-    public HashMap<Integer, com.kalpi.domain.layout.Point> getSurface() {
-        return surface.getCoordinates();
+    public Surface getSurface() {
+        return surface;
     }
 
-    public HashMap<Integer, Point> getCoordinates() {
-        return this.surface.getCoordinates();
+    public void addPeripheralGap(int i) throws Exception {
+        this.surfaceWithPeripheralGap = new PeripheralGap(this.surface, i).compute();
+    }
+
+    public Surface getSurfaceWithPeripheralGap() {
+        return this.surfaceWithPeripheralGap;
     }
 }
